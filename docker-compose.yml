@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  inventory-service:
+    build: .
+    container_name: inventory-management
+    ports:
+      - "9697:9697"  # Port 9697 (no mapping, direct)
+    environment:
+      - PORT=9697
+      - NODE_ENV=production
+    restart: unless-stopped
