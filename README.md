@@ -10,23 +10,19 @@ Production URL: https://jer.theokaitou.my.id/items
 Port: 9697  
 GitHub Repository: https://github.com/chaeljer18/inventory-service
 
-# Fitur Utama
-
----
-
 # Manajemen Inventaris Lengkap (CRUD):
 
-a. Melihat daftar menu.
-b. Menambah menu baru.
-c. Mengupdate harga/nama menu.
-d. Menghapus menu.
-e. Fitur Restock (Menambah stok tanpa mereset data).
+- Melihat daftar menu.
+- Menambah menu baru.
+- Mengupdate harga/nama menu.
+- Menghapus menu.
+- Fitur Restock (Menambah stok tanpa mereset data).
 
 # Sistem Pemesanan Terintegrasi:
 
-a. Validasi stok real-time (mengurangi stok di Inventory Service saat pesanan dibuat).
-b. Menolak pesanan jika stok tidak cukup atau ID salah.
-c. Menyimpan riwayat transaksi (Order History).
+- Validasi stok real-time (mengurangi stok di Inventory Service saat pesanan dibuat).
+- Menolak pesanan jika stok tidak cukup atau ID salah.
+- Menyimpan riwayat transaksi (Order History).
 
 - Frontend: Berjalan di browser, bertugas menampilkan UI dan mengirim request HTTP.
 - Order Service: Mengatur logika pemesanan, menghubungkan user dengan inventory.
