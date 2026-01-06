@@ -1,237 +1,120 @@
-# Inventory Management Microservice
+---
+Kantin Labtek V Microservices Integration
+# Aplikasi sistem manajemen kantin kampus berbasis arsitektur Microservices. Aplikasi ini mendemonstrasikan integrasi antara dua layanan backend terpisah (Order & Inventory) dan sebuah Frontend modern berbasis Web.
+---
 
-Michael Jeremi B S  
-NIM 18221136
-
-Live Deployment
+Nama : Michael Jeremi B S  
+NIM : 18221136
 
 Production URL: https://jer.theokaitou.my.id  
 Port: 9697  
 GitHub Repository: https://github.com/chaeljer18/inventory-service
 
-Quick Test:
+# Fitur Utama
 
-```bash
-curl https://jer.theokaitou.my.id/health
-curl https://jer.theokaitou.my.id/api/products
+---
+
+# Manajemen Inventaris Lengkap (CRUD):
+
+a. Melihat daftar menu.
+b. Menambah menu baru.
+c. Mengupdate harga/nama menu.
+d. Menghapus menu.
+e. Fitur Restock (Menambah stok tanpa mereset data).
+
+# Sistem Pemesanan Terintegrasi:
+
+a. Validasi stok real-time (mengurangi stok di Inventory Service saat pesanan dibuat).
+b. Menolak pesanan jika stok tidak cukup atau ID salah.
+c. Menyimpan riwayat transaksi (Order History).
+
+- Frontend: Berjalan di browser, bertugas menampilkan UI dan mengirim request HTTP.
+- Order Service: Mengatur logika pemesanan, menghubungkan user dengan inventory.
+- Inventory Service: Menyimpan data menu, mengelola stok, dan validasi ID.
+
+# Tech Stack
+
+- Backend: Node.js, Express.js, Axios, CORS, Dotenv.
+- Frontend: HTML5, CSS3 (Modern UI), Vanilla JS.
+- Deployment: Localhost
+
+---
+
+# Struktur Project
+
+---
+
+```text
+canteen-system/
+│
+├── inventory-service/          # Layanan 1: Pengelola Stok
+│   ├── node_modules/
+│   ├── .env                     # Konfigurasi PORT=9697
+│   └── index.js                 # Kode Server Inventory
+│
+├── order-service/               # Layanan 2: Pengelola Pesanan
+│   ├── node_modules/
+│   ├── .env                     # Konfigurasi PORT=9698 & URL Inventory
+│   └── index.js                 # Kode Server Order
+│
+└── frontend/                    # Antarmuka Web
+    ├── index.html
+    ├── style.css
+    └── script.js
+
 ```
 
 ---
 
-Deskripsi
-
-Microservice untuk mengelola inventaris kantin kampus ITB menggunakan Domain-Driven Design (DDD) dengan Node.js dan Express.js.
-
-Fitur:
-
-- CRUD Produk
-- Manajemen Stok (tambah/kurangi)
-- Cek Ketersediaan Stok
-- Alert Stok Rendah
-- History Restock
-- Laporan Summary
-- Batch Operations untuk Order Service
+# Prasyarat
 
 ---
 
-Cara Menjalankan Lokal
+- Node.js (Versi 14 atau lebih disarankan). Download di sini.
+- Web Browser modern (Google Chrome/Edge/Firefox).
 
-1. Clone Repository
+---
 
-```bash
-git clone https://github.com/YOUR-USERNAME/inventory-service.git
+# Cara Menjalankan API INVENTORY dan ORDER
+
+---
+
+1. INSTALL API
+   Buka terminal, masuk ke masing-masing folder service dan jalankan perintah install:
+
+# Masuk ke folder Inventory Service
+
 cd inventory-service
-```
+npm install express cors
+cd ..
 
-2. Install Dependencies
+2. RUN API INVENTORY SERVICE
 
-```bash
-npm install
-```
+- Buka sebuah terminal
+- cd ke folder inventory
+- jalankan node index.js
+  Seharusnya muncul pesan : Inventory Service berjalan di http://localhost:9697
 
-3. Setup Environment
-
-```bash
-# Copy .env.example ke .env
-cp .env.example .env
-
-# Edit .env jika perlu (default: PORT=9697)
-```
-
-4. Jalankan Service
-
-```bash
-npm start
-```
-
-Service berjalan di: `http://localhost:9697`
-
-5. Test Service
-
-```bash
-# Health Check
-curl http://localhost:9697/health
-
-# Get All Products
-curl http://localhost:9697/api/products
-```
-
-Deploy dengan Docker
-
-Build & Run
-
-```bash
-# Build image
-docker build -t inventory-service .
-
-# Run container
-docker run -d -p 9697:9697 --name inventory-management inventory-service
-
-# Check logs
-docker logs inventory-management
-```
-
-Menggunakan Docker Compose
-
-```bash
-# Start
-docker-compose up -d
-
-# Check status
-docker-compose ps
-
-# View logs
-docker-compose logs -f
-
-# Stop
-docker-compose down
-```
+# MANUAL TEST
 
 ---
 
-API Endpoints
+# Melihat Semua Menu (GET /items)
 
-Base URL: `https://jer.theokaitou.my.id` (Production)  
-Base URL: `http://localhost:9697` (Local)
+curl http://localhost:9697/items
 
-Products
+# Menambah Menu Baru (POST /items)
 
-- `GET /api/products` - Get all products
-- `GET /api/products/:id` - Get product by ID
-- `POST /api/products` - Create product
-- `PUT /api/products/:id` - Update product
-- `DELETE /api/products/:id` - Delete product
+curl -X POST http://localhost:9697/items -H "Content-Type: application/json" -d "{\"name\": \"Es Teh Anget\", \"price\": 15000, \"stock\": 20}"
 
-Stock Management
+# Update Harga/Info Menu (PUT /items/:id)
 
-- `POST /api/products/:id/restock` - Add stock
-- `POST /api/products/:id/reduce` - Reduce stock
-- `POST /api/products/:id/check-availability` - Check availability
+curl -X PUT http://localhost:9697/items/1 -H "Content-Type: application/json" -d "{\"price\": 25000}"
 
-Batch Operations (buat Order Service)
+# Restock / Tambah Stok (PATCH /items/:id/restock)
 
-- `POST /api/products/batch/check-availability` - Batch check
-- `POST /api/products/batch/reduce` - Batch reduce
+curl -X PATCH http://localhost:9697/items/3/restock -H "Content-Type: application/json" -d "{\"quantity\": 50}"
 
-Alerts & Reports
+# Hapus Menu (DELETE /items/:id)
 
-- `GET /api/alerts/low-stock` - Low stock alert
-- `GET /api/alerts/expiry` - Expiry alert
-- `GET /api/summary` - Inventory summary
-- `GET /api/restock-history` - Restock history
-
----
-
-Integrasi dengan Order Service
-
-Check Availability
-
-```bash
-POST https://jer.theokaitou.my.id/api/products/batch/check-availability
-Content-Type: application/json
-
-{
-  "items": [
-    { "productId": "P001", "quantity": 2 },
-    { "productId": "P003", "quantity": 5 }
-  ]
-}
-```
-
-Reduce Stock
-
-```bash
-POST https://jer.theokaitou.my.id/api/products/batch/reduce
-Content-Type: application/json
-
-{
-  "items": [
-    { "productId": "P001", "quantity": 2 }
-  ],
-  "reason": "Order #12345"
-}
-```
-
-Testing Examples
-
-- Health Check
-
-```bash
-curl https://jer.theokaitou.my.id/health
-```
-
-- Get All Products
-
-```bash
-curl https://jer.theokaitou.my.id/api/products
-```
-
-- Create New Product
-
-```bash
-curl -X POST https://jer.theokaitou.my.id/api/products \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Bakso",
-    "category": "Makanan Berat",
-    "price": 13000,
-    "stock": 15,
-    "minStock": 5
-  }'
-```
-
-- Check Stock Availability
-
-```bash
-curl -X POST https://jer.theokaitou.my.id/api/products/P001/check-availability \
-  -H "Content-Type: application/json" \
-  -d '{"quantity": 5}'
-```
-
-- Restock Product
-
-```bash
-curl -X POST https://jer.theokaitou.my.id/api/products/P001/restock \
-  -H "Content-Type: application/json" \
-  -d '{
-    "quantity": 10,
-    "reason": "Daily restock",
-    "performedBy": "Admin"
-  }'
-```
-
-Environment Variables
-
-| Variable   | Default    | Description      |
-| ---------- | ---------- | ---------------- |
-| `PORT`     | 9697       | Server port      |
-| `NODE_ENV` | production | Environment mode |
-
----
-
-Performance
-
-- Memory Usage: ~15-20 MB
-- Disk Space: ~3 MB (with node_modules)
-- Response Time: < 50ms (average)
-- Concurrent Requests: 100+ supported
+curl -X DELETE http://localhost:9697/items/12
