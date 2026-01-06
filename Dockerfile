@@ -14,4 +14,4 @@ EXPOSE 9697
 ENV NODE_ENV=production
 ENV PORT=9697
 
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
