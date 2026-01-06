@@ -1,12 +1,12 @@
 ---
-Kantin Labtek V Microservices Integration
-# Aplikasi sistem manajemen kantin kampus berbasis arsitektur Microservices. Aplikasi ini mendemonstrasikan integrasi antara dua layanan backend terpisah (Order & Inventory) dan sebuah Frontend modern berbasis Web.
+# Kantin Labtek V Microservices Integration
+Aplikasi sistem manajemen kantin kampus berbasis arsitektur Microservices. Aplikasi ini mendemonstrasikan integrasi antara dua layanan backend terpisah (Order & Inventory) dan sebuah Frontend modern berbasis Web.
 ---
 
 Nama : Michael Jeremi B S  
 NIM : 18221136
 
-Production URL: https://jer.theokaitou.my.id  
+Production URL: https://jer.theokaitou.my.id/items
 Port: 9697  
 GitHub Repository: https://github.com/chaeljer18/inventory-service
 
