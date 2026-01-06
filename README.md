@@ -91,26 +91,31 @@ cd ..
 - jalankan node index.js
   Seharusnya muncul pesan : Inventory Service berjalan di http://localhost:9697
 
-# MANUAL TEST
-
----
-
 # Melihat Semua Menu (GET /items)
 
-curl http://localhost:9697/items
+local : curl http://localhost:9697/items
+STB : curl https://jer.theokaitou.my.id/items
 
 # Menambah Menu Baru (POST /items)
 
+local :
 curl -X POST http://localhost:9697/items -H "Content-Type: application/json" -d "{\"name\": \"Es Teh Anget\", \"price\": 15000, \"stock\": 20}"
+STB : curl -X POST https://jer.theokaitou.my.id/items -H "Content-Type: application/json" -d "{\"name\": \"Es Teh Anget\", \"price\": 15000, \"stock\": 20}"
 
 # Update Harga/Info Menu (PUT /items/:id)
 
+local :
 curl -X PUT http://localhost:9697/items/1 -H "Content-Type: application/json" -d "{\"price\": 25000}"
+STB : curl -X PUT https://jer.theokaitou.my.id/items/1 -H "Content-Type: application/json" -d "{\"price\": 25000}"
 
 # Restock / Tambah Stok (PATCH /items/:id/restock)
 
+local :
 curl -X PATCH http://localhost:9697/items/3/restock -H "Content-Type: application/json" -d "{\"quantity\": 50}"
+STB : curl -X PATCH https://jer.theokaitou.my.id/items/3/restock -H "Content-Type: application/json" -d "{\"quantity\": 50}"
 
 # Hapus Menu (DELETE /items/:id)
 
+local:
 curl -X DELETE http://localhost:9697/items/12
+STB : curl -X DELETE https://jer.theokaitou.my.id/items/12
